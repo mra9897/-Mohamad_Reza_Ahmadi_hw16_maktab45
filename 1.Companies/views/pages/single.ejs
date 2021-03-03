@@ -1,0 +1,67 @@
+<% data = typeof data !== "undefined" ? data : {} %>
+<div class="container">
+    <div class="row">
+        <div class="offset-3 col-md-6">
+            <div class="card mt-4">
+                <h5 class="card-header bg-dark-green text-light d-flex justify-content-between">
+                    <i class="fa fa-industry align-self-center pe-2"></i>
+                    <input type="text" id="name" placeholder="Company name" class="hidden-input w-100" value="<%= data.name %>" disabled>
+                    <button class="btn btn-light" id="edit">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                </h5>
+                <div class="card-body bg-gradient-green">
+                    <div class="card-text">
+                        <ul class="list-group">
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-city"></i>
+                                    Province:
+                                </b>
+                                <input id="province" class="form-control" value="<%= data.province %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-city"></i>
+                                    City:
+                                </b>
+                                <input id="city" class="form-control" value="<%= data.city %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-barcode"></i>
+                                    Register code:
+                                </b>
+                                <input id="register_code" class="form-control" value="<%= data.register_code %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-calendar-alt"></i>
+                                    Register date:
+                                </b>
+                                <input id="register_date" class="form-control" value="<%= data.register_date %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-phone-square"></i>
+                                    Phone:
+                                </b>
+                                <input id="phone" class="form-control" value="<%= data.phone %>">
+                            </li>
+                            <input type="hidden" id="company-id" value="<%= data.id %>">
+                        </ul>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <a href="/company/all" class="btn btn-light">
+                                <i class="fa fa-angle-left"></i>
+                                 Back
+                            </a>
+                        </div>
+                        <div class="col-9 direction-right" id="buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
