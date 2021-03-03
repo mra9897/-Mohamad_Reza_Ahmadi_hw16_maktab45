@@ -1,0 +1,72 @@
+2.1 ----------------------- 2.1
+
+SELECT CONCAT(w.first_name, " ", w.last_name) AS Writer ,COUNT(wa.id) AS Articles
+FROM writer w
+JOIN writer_article wa
+WHERE w.id = wa.writer_id
+GROUP BY w.id
+
+
+2.2 ----------------------------- 2.2
+
+SELECT CONCAT(w.first_name, ' ', w.last_name) AS Writer,
+a.title AS Article 
+FROM writer w 
+JOIN writer_article wa
+ON w.id = wa.writer_id
+JOIN article a 
+ON a.id = wa.article_id
+WHERE w.id = 2
+
+
+2.3 ------------------------ 2.3
+
+SELECT CONCAT(w.first_name, " ", w.last_name) AS Writer,
+a.title AS Article,
+c.title AS Category
+FROM writer w 
+JOIN writer_article wa
+ON w.id = wa.writer_id
+JOIN article a 
+ON wa.article_id = a.id
+JOIN category c
+ON a.category = c.id
+WHERE w.id = 1
+AND a.category = 3
+
+
+2.4 ------------------------------- 2.4
+
+SELECT t.title AS Tag, COUNT(*) AS Count 
+FROM tag t
+JOIN tag_article ta
+WHERE t.id = ta.tag_id
+GROUP BY t.id
+
+2.5 ------------------------- 2.5
+
+SELECT c.title, COUNT(a.category) AS Articles
+FROM category c 
+LEFT OUTER JOIN article a
+ON c.id = a.category
+WHERE a.category IS NULL
+GROUP BY c.id
+
+
+2.6 ------------------ 2.6
+
+SELECT * FROM writer WHERE id NOT In (SELECT w.id FROM writer w 
+JOIN writer_article wa
+ON w.id = wa.writer_id
+JOIN article a 
+ON a.id = wa.article_id
+WHERE a.category != 4)
+
+
+2.7 --------------------- 2.7
+
+mysqldump -u root -p  blog > blog.sql
+mysql -u root -p first_db < blog.sql
+
+
+

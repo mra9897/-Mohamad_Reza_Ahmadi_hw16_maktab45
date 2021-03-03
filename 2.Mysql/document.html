@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MR.A | HW16</title>
+    <style>
+        body{direction: rtl}
+        img{
+            display: block;
+            width: 60%;
+            margin: auto;
+        }
+        code{
+            width: 80%;
+            margin: 5px auto;
+            display: block;
+            padding: 8px 5px;
+            border: 2px solid darkorange;
+            background: #f1c40f;
+            border-radius: 5px;
+            direction: ltr;
+        }
+        div{
+            border-bottom: 3px dashed;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h2>تعداد مقالات هر نویسنده</h2>
+    <a href="./2-1.Writer's-Article.png" target="_blank"><img src="./2-1.Writer's-Article.png" alt=""></a>
+    <code>
+        SELECT CONCAT(w.first_name, " ", w.last_name) AS Writer ,COUNT(wa.id) AS Articles
+        FROM writer w
+        JOIN writer_article wa
+        WHERE w.id = wa.writer_id
+        GROUP BY w.id
+    </code>
+</div>
+<div>
+    <h2>
+        مقالات نویسنده x به همراه نام نویسنده
+    </h2>
+    <a href="./2-2.Writer-Articles.png" target="_blank"><img src="./2-2.Writer-Articles.png" alt=""></a>
+    <code>
+        SELECT CONCAT(w.first_name, ' ', w.last_name) AS Writer,
+        a.title AS Article
+        FROM writer w
+        JOIN writer_article wa
+        ON w.id = wa.writer_id
+        JOIN article a
+        ON a.id = wa.article_id
+        WHERE w.id = 2
+    </code>
+</div>
+<div>
+    <h2>
+        مقالات نویسنده x که دارای دسته بندی با نام y هستند
+    </h2>
+    <a href="./2-3.Writer-x-Cat-x.png" target="_blank"><img src="./2-3.Writer-x-Cat-x.png" alt=""></a>
+    <code>
+        SELECT CONCAT(w.first_name, " ", w.last_name) AS Writer,
+        a.title AS Article,
+        c.title AS Category
+        FROM writer w
+        JOIN writer_article wa
+        ON w.id = wa.writer_id
+        JOIN article a
+        ON wa.article_id = a.id
+        JOIN category c
+        ON a.category = c.id
+        WHERE w.id = 1
+        AND a.category = 3
+    </code>
+</div>
+<div>
+    <h2>
+        نام هر تگ به همراه تعداد استفاده آن در مقالات
+    </h2>
+    <a href="" target="_blank"><img src="./2-4.Tags-Count.png" alt=""></a>
+    <code>
+        SELECT t.title AS Tag, COUNT(*) AS Count
+        FROM tag t
+        JOIN tag_article ta
+        WHERE t.id = ta.tag_id
+        GROUP BY t.id
+    </code>
+</div>
+<div>
+    <h2>
+        نام دسته بندی های که در هیچ مقاله ای استفاده نشده اند
+    </h2>
+    <a href="" target="_blank"><img src="./2-5.Not-Used-Category.png" alt=""></a>
+    <code>
+        SELECT c.title, COUNT(a.category) AS Articles
+        FROM category c
+        LEFT OUTER JOIN article a
+        ON c.id = a.category
+        WHERE a.category IS NULL
+        GROUP BY c.id
+    </code>
+</div>
+<div>
+    <h2>
+        نام نویسندگانی که هیچ مقاله ای در دسته بندی y ندارند.
+    </h2>
+    <a href="" target="_blank"><img src="./2-6.Writer-Has-Not-Cat-x.png" alt=""></a>
+    <code>
+        SELECT * FROM writer WHERE id NOT In (SELECT w.id FROM writer w
+        JOIN writer_article wa
+        ON w.id = wa.writer_id
+        JOIN article a
+        ON a.id = wa.article_id
+        WHERE a.category != 4)
+    </code>
+</div>
+<div>
+    <h2>
+        در اینترنت جستجو کنید که چگونه می توان اطلاعات یک پایگاه داده را از mysql استخراج کرد یا به آن وارد
+        کرد (import و export در قالب یک script sql (و نتیجه را توضیح دهید. دستورات مربوط به ساخت
+        پایگاه داده و جدول مذکور و وارد کردن اطلاعات در آن (گام های ١ تا ٣ (را در قالب یک script استخراج و
+        ضمیمه پاسخ ها کنید.
+    </h2>
+    <a href="./blog.sql">Download blog.sql</a>
+    <code>
+        <b>Export:</b> mysqldump -u root -p  blog > blog.sql
+        <br>
+        <b>Import:</b> mysql -u root -p first_db < blog.sql
+    </code>
+</div>
+<div>
+    <h2>
+        relationship-self را توضیح دهید
+    </h2>
+    <p>
+        وقتی در یک جدول داده های هر ردیف با هرکدام از ردیف های قبلی رابطه داشته باشند، اصطلاحا آن جدول
+        self-relationship
+        است. مثلا در یک سیستم که امکان دعوت کردن از دیگر کاربران وجود دارد از یک فیلد اضافی برای ذخیره شناسه دعوت کننده
+        استفاده میشود.
+    </p>
+</div>
+<div>
+    <h2>
+        مثال های کاربردی از رابطه self-relationship برای سه حالت 1:1 و 1:N و N:N ارائه کنید
+    </h2>
+    <h3>1:1</h3>
+    فرض میکنیم یک سیستم طراحی شده که افراد ثبت نام شده میتوانند تنها یک هم گروهی برای خود انتخاب کنند، در این صورت
+    اگر کاربر
+    x
+    کاربر
+    y
+    را به عنوان هم گروهی انتخاب کند رابطه ۱ به ۱ در جدول کاربران ایجاد شده است.
+    <br>
+    <h3>N:1</h3>
+    همانطور که در توضیحات گفته شد هرگاه در سیستم امکان دعوت از دیگر افراد برای ثبت نام در سیستم وجود داشته باشد
+    رابطه چند به یک در جدول ایجاد میشود.
+    <br>
+    <h3>N:N</h3>
+    هرگاه در سیستم امکان دسته بندی ای وجود داشته باشد که هر دسته بندی بتواند زیر مجموعه داشته باشد
+    رابطه چند به چند ایجاد شده است.
+    <br>
+    مثلا یک دسته بندی با نام « کامپیوتر‌ » داریم که یک زیرمجموعه به عنوان « برنامه نویسی » دارد که این زیرمجموعه هم
+    یک زیر مجموعه دیگر با عنوان « بک اند » دارد و مشخصا هرکدام از این دسته بندی ها تعدادی عضو خواهند داشت.
+    در این صروت یک رابطه چند به چند در جدول دسته بندی ها ایجاد شد.
+</div>
+</body>
+</html>
