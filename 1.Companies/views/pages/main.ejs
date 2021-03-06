@@ -33,7 +33,7 @@
                                         <i class="fa fa-calendar-alt"></i>
                                         Register date:
                                     </b>
-                                    <%= company.register_date %>
+                                    <%= `${company.register_date.getFullYear()}-${company.register_date.getMonth()}-${company.register_date.getDate()}` %>
                                 </li>
                             </ul>
                         </div>

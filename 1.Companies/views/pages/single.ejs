@@ -39,7 +39,8 @@
                                     <i class="fa fa-calendar-alt"></i>
                                     Register date:
                                 </b>
-                                <input id="register_date" class="form-control" value="<%= data.register_date %>">
+                                <input id="register_date" class="form-control"
+                                       value="<%= `${data.register_date.getFullYear()}-${data.register_date.getMonth()}-${data.register_date.getDate()}` %>">
                             </li>
                             <li class="list-group-item  bg-transparent text-light">
                                 <b>
